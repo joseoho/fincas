@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FincaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\AnimalController;
-
+use App\Http\Controllers\TransaccionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +18,11 @@ Auth::routes();
 Route::middleware(['auth', 'verified'])->group(function () {
 Route::resource('fincas', FincaController::class);
 Route::resource('lotes', LoteController::class)->middleware('auth');
+Route::resource('transacciones', TransaccionController::class)
+    ->parameters(['transacciones' => 'transaccion']);
+// Route::get('transacciones/exportar', [TransaccionController::class, 'exportar'])
+//     ->name('transacciones.exportar') para esxportar
+//     ->middleware('auth');
 Route::resource('animales', AnimalController::class)
     ->parameters(['animales' => 'animal'])
     ->middleware('auth');

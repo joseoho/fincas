@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
         MonedaSeeder::class,
         FincasTableSeeder::class, // Añade esta línea
+        TransaccionesTableSeeder::class, // Añade esta línea
         UserSeeder::class
     ]);
     }

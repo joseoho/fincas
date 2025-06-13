@@ -108,7 +108,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/transacciones">
             <span data-feather="credit-card"></span>
             Transacciones
           </a>
