@@ -19,12 +19,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::resource('fincas', FincaController::class);
 Route::resource('lotes', LoteController::class)->middleware('auth');
 Route::resource('transacciones', TransaccionController::class)
-    ->parameters(['transacciones' => 'transaccion']);
+    ->parameters(['transacciones' => 'transaccion']);//Esto es un problema común con la convención de nombres en Laravel.
 // Route::get('transacciones/exportar', [TransaccionController::class, 'exportar'])
 //     ->name('transacciones.exportar') para esxportar
 //     ->middleware('auth');
 Route::resource('animales', AnimalController::class)
-    ->parameters(['animales' => 'animal'])
+    ->parameters(['animales' => 'animal'])//Esto es un problema común con la convención de nombres en Laravel.
     ->middleware('auth');
 // Route::get('/animales/{animal}/edit', [AnimalController::class, 'edit'])->name('animales.edit');
 

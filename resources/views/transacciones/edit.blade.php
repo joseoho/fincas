@@ -4,162 +4,137 @@
 
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="mb-0">Editar Animal: {{ $animal->codigo }}</h2>
-                        <a href="{{ route('animales.show', $animal) }}" class="btn btn-light btn-sm">
-                            <i class="fas fa-arrow-left"></i> Volver
-                        </a>
-                    </div>
+                    <h2 class="h5 mb-0">Editar Transacción</h2>
                 </div>
+
                 <div class="card-body">
-                    <form method="POST" action="{{ route('animales.update', $animal) }}">
+                    <form action="{{ route('transacciones.update', $transaccion) }}" method="POST">
                         @csrf
                         @method('PUT')
 
-                        <!-- Código del Animal -->
-                        {{-- <div class="mb-3 row">
-                            <label for="codigo" class="col-md-4 col-form-label text-md-end">Código</label>
+                        <div class="row mb-3">
                             <div class="col-md-6">
-                                <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror" 
-                                       name="codigo" value="{{ old('codigo', $animal->codigo) }}" required autofocus readonly>
-                                @error('codigo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div> --}}
-
-                        <!-- Selección de Lote -->
-                        <div class="mb-3 row">
-                            <label for="lote_id" class="col-md-4 col-form-label text-md-end">Lote</label>
-                            <div class="col-md-6">
-                                <select id="lote_id" class="form-control @error('lote_id') is-invalid @enderror" 
-                                        name="lote_id" required>
-                                    <option value="">Seleccione un lote</option>
-                                    @foreach($lotes as $lote)
-                                        <option value="{{ $lote->id }}" 
-                                            {{ old('lote_id', $animal->lote_id) == $lote->id ? 'selected' : '' }}>
-                                            {{ $lote->nombre }}
+                                <label for="finca_id" class="form-label">Finca</label>
+                                <select class="form-select @error('finca_id') is-invalid @enderror" id="finca_id" name="finca_id" required>
+                                    <option value="">Seleccione una finca</option>
+                                    @foreach($fincas as $finca)
+                                        <option value="{{ $finca->id }}" {{ $transaccion->finca_id == $finca->id ? 'selected' : '' }}>
+                                            {{ $finca->nombre }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('lote_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                @error('finca_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
 
-                        <!-- Raza -->
-                        <div class="mb-3 row">
-                            <label for="raza" class="col-md-4 col-form-label text-md-end">Raza</label>
                             <div class="col-md-6">
-                                <input id="raza" type="text" class="form-control @error('raza') is-invalid @enderror" 
-                                       name="raza" value="{{ old('raza', $animal->raza) }}" required>
-                                @error('raza')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Sexo -->
-                        <div class="mb-3 row">
-                            <label for="sexo" class="col-md-4 col-form-label text-md-end">Sexo</label>
-                            <div class="col-md-6">
-                                <select id="sexo" class="form-control @error('sexo') is-invalid @enderror" 
-                                        name="sexo" required>
-                                    <option value="Macho" {{ old('sexo', $animal->sexo) == 'Macho' ? 'selected' : '' }}>Macho</option>
-                                    <option value="Hembra" {{ old('sexo', $animal->sexo) == 'Hembra' ? 'selected' : '' }}>Hembra</option>
+                                <label for="moneda_id" class="form-label">Moneda</label>
+                                <select class="form-select @error('moneda_id') is-invalid @enderror" id="moneda_id" name="moneda_id" required>
+                                    <option value="">Seleccione una moneda</option>
+                                    @foreach($monedas as $moneda)
+                                        <option value="{{ $moneda->id }}" {{ $transaccion->moneda_id == $moneda->id ? 'selected' : '' }}>
+                                            {{ $moneda->codigo }} - {{ $moneda->nombre }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                @error('sexo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                @error('moneda_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
-                        <!-- Fecha de Nacimiento -->
-                        <div class="mb-3 row">
-                            <label for="fecha_nacimiento" class="col-md-4 col-form-label text-md-end">Fecha Nacimiento</label>
+                        <div class="row mb-3">
                             <div class="col-md-6">
-                                <input id="fecha_nacimiento" type="date" 
-                                       class="form-control @error('fecha_nacimiento') is-invalid @enderror" 
-                                       name="fecha_nacimiento" value="{{ old('fecha_nacimiento', $animal->fecha_nacimiento ? $animal->fecha_nacimiento: '') }}">
-                                @error('fecha_nacimiento')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Peso Inicial -->
-                        <div class="mb-3 row">
-                            <label for="peso_inicial" class="col-md-4 col-form-label text-md-end">Peso Inicial (kg)</label>
-                            <div class="col-md-6">
-                                <input id="peso_inicial" type="number" step="0.01" 
-                                       class="form-control @error('peso_inicial') is-invalid @enderror" 
-                                       name="peso_inicial" value="{{ old('peso_inicial', $animal->peso_inicial) }}">
-                                @error('peso_inicial')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Estado -->
-                        <div class="mb-3 row">
-                            <label for="estado" class="col-md-4 col-form-label text-md-end">Estado</label>
-                            <div class="col-md-6">
-                                <select id="estado" class="form-control @error('estado') is-invalid @enderror" 
-                                        name="estado" required>
-                                    <option value="Activo" {{ old('estado', $animal->estado) == 'Activo' ? 'selected' : '' }}>Activo</option>
-                                    <option value="Vendido" {{ old('estado', $animal->estado) == 'Vendido' ? 'selected' : '' }}>Vendido</option>
-                                    <option value="Enfermo" {{ old('estado', $animal->estado) == 'Enfermo' ? 'selected' : '' }}>Enfermo</option>
-                                    <option value="Muerto" {{ old('estado', $animal->estado) == 'Muerto' ? 'selected' : '' }}>Muerto</option>
+                                <label for="tipo" class="form-label">Tipo de Transacción</label>
+                                <select class="form-select @error('tipo') is-invalid @enderror" id="tipo" name="tipo" required>
+                                    <option value="ingreso" {{ $transaccion->tipo == 'ingreso' ? 'selected' : '' }}>Ingreso</option>
+                                    <option value="egreso" {{ $transaccion->tipo == 'egreso' ? 'selected' : '' }}>Egreso</option>
                                 </select>
-                                @error('estado')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                @error('tipo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
 
-                        <!-- Observaciones -->
-                        <div class="mb-3 row">
-                            <label for="observaciones" class="col-md-4 col-form-label text-md-end">Observaciones</label>
                             <div class="col-md-6">
-                                <textarea id="observaciones" rows="3" 
-                                          class="form-control @error('observaciones') is-invalid @enderror" 
-                                          name="observaciones">{{ old('observaciones', $animal->observaciones) }}</textarea>
-                                @error('observaciones')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <label for="monto" class="form-label">Monto</label>
+                                <input type="number" step="0.01" class="form-control @error('monto') is-invalid @enderror" 
+                                       id="monto" name="monto" value="{{ old('monto', $transaccion->monto) }}" required>
+                                @error('monto')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
-                        <!-- Botones de Acción -->
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Guardar Cambios
-                                </button>
-                                <a href="{{ route('animales.show', $animal) }}" class="btn btn-secondary">
-                                    Cancelar
-                                </a>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control @error('fecha') is-invalid @enderror" 
+                                       id="fecha" name="fecha" value="{{ old('fecha', $transaccion->fecha) }}" required>
+                                @error('fecha')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
+
+                            <div class="col-md-6">
+                                <label for="categoria" class="form-label">Categoría</label>
+                                <select class="form-select @error('categoria') is-invalid @enderror" id="categoria" name="categoria" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    @foreach($categorias as $categoria)
+                                        <option value="{{ $categoria }}" {{ $transaccion->categoria == $categoria ? 'selected' : '' }}>
+                                            {{ $categoria }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('categoria')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control @error('descripcion') is-invalid @enderror" 
+                                      id="descripcion" name="descripcion" rows="3">{{ old('descripcion', $transaccion->descripcion) }}</textarea>
+                            @error('descripcion')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="referencia" class="form-label">Referencia (Opcional)</label>
+                            <input type="text" class="form-control @error('referencia') is-invalid @enderror" 
+                                   id="referencia" name="referencia" value="{{ old('referencia', $transaccion->referencia) }}">
+                            @error('referencia')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ route('transacciones.index') }}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Actualizar Transacción
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
+   
+@endsection
 
+@section('scripts')
+@if($errors->any())
+<script>
+    // Desplazar al primer campo con error
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstErrorField = document.querySelector('.is-invalid');
+        if (firstErrorField) {
+            firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstErrorField.focus();
+        }
+    });
+</script>
+@endif
 @endsection

@@ -7,6 +7,8 @@ use App\Models\Finca;
 use App\Models\Moneda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreTransaccionRequest;
+use App\Http\Requests\UpdateTransaccionRequest;
 
 class TransaccionController extends Controller
 {
@@ -101,7 +103,7 @@ class TransaccionController extends Controller
         
         // Categorías predefinidas (puedes personalizar)
         $categorias = [
-            'Venta de animales',
+            'Venta de animales y Leche',
             'Compra de insumos',
             'Pago de mano de obra',
             'Mantenimiento',
@@ -153,12 +155,11 @@ class TransaccionController extends Controller
     $monedas = Moneda::orderBy('codigo')->get();
     
     $categorias = [
-        'Venta de animales',
-        'Venta de leche',
+        'Venta de animales y Leche',
         'Compra de insumos',
         'Pago de mano de obra',
         'Mantenimiento',
-        'Otros'
+        'Nomina'
     ];
     
     return view('transacciones.edit', compact(
@@ -174,7 +175,10 @@ class TransaccionController extends Controller
      */
     public function update(UpdateTransaccionRequest $request, Transaccion $transaccion)
     {
-        //
+        $transaccion->update($request->all());
+
+        return redirect()->route('transacciones.index',$transaccion->id)
+                        ->with('success', 'Transacciones actualizada exitosamente.');
     }
 
     /**
@@ -182,6 +186,9 @@ class TransaccionController extends Controller
      */
     public function destroy(Transaccion $transaccion)
     {
-        //
+        $transaccion->delete();
+    
+    return redirect()->route('transacciones.index')
+                     ->with('success', 'Transacción eliminada exitosamente!');
     }
 }

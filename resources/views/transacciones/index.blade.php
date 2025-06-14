@@ -3,6 +3,36 @@
 @section('title', 'Gestión de Transacciones')
 
 @section('content')
+@section('styles')
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .printable-area, .printable-area * {
+            visibility: visible;
+        }
+        .printable-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .no-print {
+            display: none !important;
+        }
+        .table {
+            width: 100% !important;
+            font-size: 12px !important;
+        }
+        .card-header {
+            background-color: #f8f9fa !important;
+            color: #000 !important;
+            border-bottom: 1px solid #dee2e6 !important;
+        }
+    }
+</style>
+@endsection
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-6">
@@ -78,6 +108,9 @@
                         <a href="{{ route('transacciones.index') }}" class="btn btn-secondary">
                             <i class="fas fa-broom"></i> Limpiar
                         </a>
+                        {{-- <button type="button" onclick="imprimirListado()" class="btn btn-success">
+                        <i class="fas fa-print"></i> Imprimir
+                        </button> --}}
                     </div>
                 </div>
             </form>

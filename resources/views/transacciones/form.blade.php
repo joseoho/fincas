@@ -64,8 +64,6 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Guardar Transacción</button>
-        <a href="{{ route('transacciones.index') }}" class="btn btn-secondary">
-                                    Cancelar
-                                </a>
+        <a href="{{ route('transacciones.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
