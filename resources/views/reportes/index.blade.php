@@ -2,7 +2,6 @@
 
 @section('title', 'Gestión de Reportes')
 
-@section('content')
 @section('styles')
 <style>
     @media print {
@@ -33,6 +32,8 @@
     }
 </style>
 @endsection
+
+@section('content')
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-6">
@@ -47,8 +48,7 @@
         </div> --}}
     </div>
 
-    <!-- Filtros -->
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4 no-print"> {{-- Añadimos no-print aquí para ocultar los filtros al imprimir --}}
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
         </div>
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label for="search">Buscar</label>
                             <input type="text" class="form-control" id="search" name="search" 
-                                   value="{{ request('search') }}" placeholder="Descripción, referencia...">
+                                    value="{{ request('search') }}" placeholder="Descripción, referencia...">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -89,14 +89,14 @@
                         <div class="form-group">
                             <label for="fecha_inicio">Desde</label>
                             <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" 
-                                   value="{{ request('fecha_inicio') }}">
+                                    value="{{ request('fecha_inicio') }}">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="fecha_fin">Hasta</label>
                             <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" 
-                                   value="{{ request('fecha_fin') }}">
+                                    value="{{ request('fecha_fin') }}">
                         </div>
                     </div>
                 </div>
@@ -108,80 +108,21 @@
                         <a href="{{ route('reportes.index') }}" class="btn btn-secondary">
                             <i class="fas fa-broom"></i> Limpiar
                         </a>
-                        <button type="button" onclick="window.imprimirReporte ()" class="btn btn-success">
+                        <button type="button" onclick="imprimirReporte()" class="btn btn-success">
                             <i class="fas fa-print"></i> Imprimir
                         </button>
-                        <button type="button" onclick="generarPDF()" class="btn btn-danger">
+                        <button type="button" onclick="generarPDF(event)" class="btn btn-danger">
                             <i class="fas fa-file-pdf"></i> Generar PDF
                         </button>
-                       
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Resumen -->
-{{--    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Ingresos (Total)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ number_format($totales['ingresos'], 2) }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-arrow-up fa-2x text-success"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-left-danger shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Egresos (Total)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ number_format($totales['egresos'], 2) }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-arrow-down fa-2x text-danger"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Saldo</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ number_format($totales['saldo'], 2) }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-balance-scale fa-2x text-primary"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <!-- Tabla de transacciones -->
-    <div class="card shadow">
+    <div class="card shadow printable-area"> {{-- Clase para el área imprimible --}}
         <div class="card-body">
+            <h4 class="text-center mb-3 no-print">Reporte de Transacciones Financieras</h4> {{-- Título para la impresión --}}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
@@ -190,10 +131,9 @@
                             <th>Tipo</th>
                             <th>Finca</th>
                             <th>Descripción</th>
-                            <th>Monto</th>
+                            <th class="text-end">Monto</th>
                             <th>Moneda</th>
                             <th>Categoría</th>
-                            {{-- <th>Acciones</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -212,27 +152,6 @@
                             <td class="text-end">{{ number_format($transaccion->monto, 2) }}</td>
                             <td>{{ $transaccion->moneda->codigo }}</td>
                             <td>{{ $transaccion->categoria }}</td>
-                            {{-- <td>
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('transacciones.show', $transaccion->id) }}" 
-                                       class="btn btn-sm btn-info" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('transacciones.edit', $transaccion->id) }}" 
-                                       class="btn btn-sm btn-warning" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('transacciones.destroy', $transaccion->id) }}" 
-                                          method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" 
-                                                title="Eliminar" onclick="return confirm('¿Eliminar esta transacción?')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td> --}}
                         </tr>
                         @empty
                         <tr>
@@ -243,12 +162,10 @@
                 </table>
             </div>
 
-            <!-- Paginación -->
-            <div class="mt-3">
+            <div class="mt-3 no-print"> {{-- Ocultar paginación al imprimir --}}
                 {{ $transacciones->appends(request()->query())->links() }}
             </div>
 
-            <!-- Totales filtrados -->
             @if(request()->anyFilled(['search', 'tipo', 'finca_id', 'fecha_inicio', 'fecha_fin']))
             <div class="row mt-4">
                 <div class="col-md-4">
@@ -277,8 +194,9 @@
 @endsection
 
 @push('scripts')
-@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+    // Asegúrate de que jQuery y jQuery UI (para datepicker) estén cargados en layouts.layout
     $(document).ready(function() {
         // Configuración de datepicker
         $("#fecha_inicio, #fecha_fin").datepicker({
@@ -290,8 +208,11 @@
 
     // Función de impresión global
     window.imprimirReporte = function() {
+        // Clonamos el contenido para no modificar el DOM original mientras se imprime
         const originalContent = document.querySelector('.printable-area').cloneNode(true);
         const noPrintElements = originalContent.querySelectorAll('.no-print');
+        
+        // Removemos los elementos con la clase .no-print del clon antes de imprimir
         noPrintElements.forEach(el => el.remove());
         
         const printWindow = window.open('', '_blank');
@@ -300,14 +221,18 @@
             <html>
                 <head>
                     <title>Reporte de Transacciones</title>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-..." crossorigin="anonymous">
                     <style>
-                        body { font-family: Arial; margin: 1cm; }
-                        table { width: 100%; border-collapse: collapse; }
-                        th, td { border: 1px solid #ddd; padding: 8px; }
+                        body { font-family: Arial, sans-serif; margin: 1cm; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
                         .text-end { text-align: right; }
-                        .badge { padding: 0.25em 0.4em; font-size: 75%; }
-                        .bg-success { background-color: #28a745!important; }
-                        .bg-danger { background-color: #dc3545!important; }
+                        .badge { padding: 0.3em 0.6em; font-size: 85%; line-height: 1; border-radius: 0.25rem; }
+                        .bg-success { background-color: #28a745!important; color: white; }
+                        .bg-danger { background-color: #dc3545!important; color: white; }
+                        h2 { text-align: center; margin-bottom: 20px; }
+                        p { text-align: right; font-size: 0.9em; }
                     </style>
                 </head>
                 <body>
@@ -322,7 +247,7 @@
     };
 
     // Función para generar PDF
-    window.generarPDF = function() {
+    window.generarPDF = function(event) { // Pasamos el evento para poder acceder a event.target
         // Cambiar el texto del botón
         const btn = event.target;
         const originalText = btn.innerHTML;
@@ -337,15 +262,11 @@
         // Redireccionar al controlador de PDF
         window.location.href = `{{ route('reportes.pdf') }}?${params}`;
         
-        // Restaurar botón después de 5 segundos (fallback)
+        // Restaurar botón después de un tiempo prudencial (o al detectar la descarga del PDF si fuera posible)
         setTimeout(() => {
             btn.innerHTML = originalText;
             btn.disabled = false;
-        }, 5000);
+        }, 5000); // 5 segundos es un tiempo estimado, puedes ajustarlo
     };
 </script>
-
-<!-- Incluir Laravel Echo para PDF (opcional) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-@endsection
 @endpush
