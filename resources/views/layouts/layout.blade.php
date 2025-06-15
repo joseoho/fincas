@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title') CONTROL GANADERO</title>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
+    <!-- jQuery UI (para datepicker) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
@@ -120,12 +131,12 @@
             Movimientos
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link" href="{{ route('register') }}">
             <span data-feather="users"></span>
             Gestión Usuarios
           </a>
-        </li>
+        </li> --}}
       @endif
     </ul>
 
@@ -138,9 +149,13 @@
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="/reportes">
             <span data-feather="file-text"></span>
-            Reporte Mensual
+            Reporte Transacciones
+          </a>
+          <a class="nav-link" href="/reportes/pdf">
+            <span data-feather="file-text"></span>
+            Generar PDF
           </a>
         </li>
       </ul>

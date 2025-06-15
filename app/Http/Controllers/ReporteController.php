@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Transaccion;
 use App\Models\Finca;
 use App\Models\Moneda;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreTransaccionRequest;
-use App\Http\Requests\UpdateTransaccionRequest;
 
-class TransaccionController extends Controller
+use Illuminate\Support\Facades\DB;
+
+class ReporteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        //
+ //
         // Obtener parámetros de búsqueda
         $search = $request->input('search');
         $tipo = $request->input('tipo');
@@ -77,7 +76,7 @@ class TransaccionController extends Controller
             $totalesFiltrados = $totales;
         }
 
-        return view('transacciones.index', compact(
+        return view('reportes.index', compact(
             'transacciones',
             'fincas',
             'monedas',
@@ -89,121 +88,81 @@ class TransaccionController extends Controller
             'totales',
             'totalesFiltrados'
         ));
-    }
 
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        // Obtener fincas y monedas para los selects
-        $fincas = Finca::orderBy('nombre')->get();
-        $monedas = Moneda::orderBy('codigo')->get();
-        
-        // Categorías predefinidas (puedes personalizar)
-        $categorias = [
-            'Venta de animales y Leche',
-            'Compra de insumos',
-            'Pago de mano de obra',
-            'Mantenimiento',
-            'Otros'
-        ];
-        
-        return view('transacciones.create', compact('fincas', 'monedas', 'categorias'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransaccionRequest $request)
+    public function store(Request $request)
     {
-        // Crear transacción sin validaciones (SOLO PARA PRUEBAS)
-        $transaccion = Transaccion::create([
-            'finca_id' => $request->finca_id,
-            'moneda_id' => $request->moneda_id,
-            'tipo' => $request->tipo,
-            'monto' => $request->monto,
-            'fecha' => $request->fecha,
-            'descripcion' => $request->descripcion,
-            'categoria' => $request->categoria,
-            'referencia' => $request->referencia
-        ]);
-
-        // Redireccionar con mensaje de éxito
-        return redirect()->route('transacciones.index')
-                         ->with('success', 'Transacción creada exitosamente! (Modo pruebas)');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Transaccion $transaccion)
+    public function show(string $id)
     {
-        // Cargar relaciones necesarias
-    $transaccion->load(['finca', 'moneda']);
-    
-    return view('transacciones.show', compact('transaccion'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaccion $transaccion)
+    public function edit(string $id)
     {
-    $fincas = Finca::orderBy('nombre')->get();
-    $monedas = Moneda::orderBy('codigo')->get();
-    
-    $categorias = [
-        'Venta de animales y Leche',
-        'Compra de insumos',
-        'Pago de mano de obra',
-        'Mantenimiento',
-        'Nomina'
-    ];
-    
-    return view('transacciones.edit', compact(
-        'transaccion',
-        'fincas',
-        'monedas',
-        'categorias'
-    ));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaccionRequest $request, Transaccion $transaccion)
+    public function update(Request $request, string $id)
     {
-        $transaccion->update($request->all());
-
-        return redirect()->route('transacciones.index',$transaccion->id)
-                        ->with('success', 'Transacciones actualizada exitosamente.');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaccion $transaccion)
+    public function destroy(string $id)
     {
-        $transaccion->delete();
-    
-    return redirect()->route('transacciones.index')
-                     ->with('success', 'Transacción eliminada exitosamente!');
+        //
     }
 
-    // app/Http/Controllers/ReporteController.php o en TransaccionController
-
-public function reportes(Request $request)
+    public function generarPdf(Request $request)
 {
+    // Aplicar los mismos filtros que en el método index
+    $query = Transaccion::with(['finca', 'moneda'])
+        ->orderBy('fecha', 'desc');
     
-}
-
-public function generarPdf(Request $request)
-{
-    // Lógica similar pero para PDF
-    $data = [/* datos para el PDF */];
-    $pdf = PDF::loadView('transacciones.pdf', $data);
-    return $pdf->download('reporte-transacciones.pdf');
+    if ($request->filled('search')) {
+        // ... aplicar filtros ...
+    }
+    
+    $transacciones = $query->get();
+    $totales = [
+        'ingresos' => $query->clone()->where('tipo', 'ingreso')->sum('monto'),
+        'egresos' => $query->clone()->where('tipo', 'egreso')->sum('monto'),
+        'saldo' => $query->clone()->where('tipo', 'ingreso')->sum('monto') - 
+                  $query->clone()->where('tipo', 'egreso')->sum('monto')
+    ];
+    
+    $pdf = \PDF::loadView('reportes.pdf', [
+        'transacciones' => $transacciones,
+        'totales' => $totales,
+        'filtros' => $request->all()
+    ]);
+    
+    return $pdf->download('reporte-transacciones-'.now()->format('YmdHis').'.pdf');
 }
 }

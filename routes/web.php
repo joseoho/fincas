@@ -5,6 +5,7 @@ use App\Http\Controllers\FincaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\TransaccionController;
+use App\Http\Controllers\ReporteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,9 +21,13 @@ Route::resource('fincas', FincaController::class);
 Route::resource('lotes', LoteController::class)->middleware('auth');
 Route::resource('transacciones', TransaccionController::class)
     ->parameters(['transacciones' => 'transaccion']);//Esto es un problema común con la convención de nombres en Laravel.
+Route::get('/transacciones/reportes', [TransaccionController::class, 'reportes'])->name('transacciones.reportes');
+Route::get('/transacciones/generar-pdf', [TransaccionController::class, 'generarPdf'])->name('transacciones.generar.pdf');
 // Route::get('transacciones/exportar', [TransaccionController::class, 'exportar'])
 //     ->name('transacciones.exportar') para esxportar
 //     ->middleware('auth');
+Route::resource('reportes', ReporteController::class);
+Route::get('/reportes/pdf', [ReporteController::class, 'generarPdf'])->name('reportes.pdf');
 Route::resource('animales', AnimalController::class)
     ->parameters(['animales' => 'animal'])//Esto es un problema común con la convención de nombres en Laravel.
     ->middleware('auth');
