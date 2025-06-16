@@ -1,21 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Animal;
-use App\Http\Requests\StoreAnimalRequest;
-use App\Http\Requests\UpdateAnimalRequest;
-
 use App\Models\Lote;
 use Illuminate\Http\Request;
-class AnimalController extends Controller
+
+
+
+class ReporteAnimalesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-                // Obtener parámetros de búsqueda
+            // Obtener parámetros de búsqueda
         $search = $request->input('search');
         $lote_id = $request->input('lote_id');
         $raza = $request->input('raza');
@@ -52,7 +51,7 @@ class AnimalController extends Controller
         // Paginar resultados
         $animales = $query->paginate(15);
 
-        return view('animales.index', compact('animales', 'lotes', 'razas', 'search', 'lote_id', 'raza', 'sexo', 'estado'));
+        return view('reportes.indexanimales', compact('animales', 'lotes', 'razas', 'search', 'lote_id', 'raza', 'sexo', 'estado'));
     }
 
     /**
@@ -60,64 +59,46 @@ class AnimalController extends Controller
      */
     public function create()
     {
-         $lotes = Lote::orderBy('nombre')->get();
-        return view('animales.index', compact('lotes'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAnimalRequest $request)
+    public function store(Request $request)
     {
-        $animal = new Animal();
-        $animal->lote_id = $request->input('lote_id');
-        $animal->codigo = $request->input('codigo');
-        $animal->raza = $request->input('raza');
-        $animal->sexo = $request->input('sexo');
-        $animal->fecha_nacimiento = $request->input('fecha_nacimiento');
-        $animal->peso_inicial = $request->input('peso_inicial');
-        $animal->estado = $request->input('estado');
-        $animal->observaciones = $request->input('observaciones');
-       
-        $animal->save();
-        // return redirect()
-        return back()->with('notification', 'Registrado');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Animal $animal)
+    public function show(string $id)
     {
-       return view('animales.show', compact('animal'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Animal $animal)
+    public function edit(string $id)
     {
-        $lotes = Lote::orderBy('nombre')->get();
-        return view('animales.edit', compact('animal', 'lotes'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAnimalRequest $request, Animal $animal)
+    public function update(Request $request, string $id)
     {
-         $animal->update($request->all());
-
-        return redirect()->route('animales.index', $animal->id)
-                        ->with('success', 'Animal actualizada exitosamente.');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Animal $animal)
+    public function destroy(string $id)
     {
-        $animal->delete();
-        return redirect()->route('animales.index')->with('success', 'Animal eliminado exitosamente.');
+        //
     }
 }

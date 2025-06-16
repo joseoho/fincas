@@ -6,6 +6,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\TransaccionController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ReporteAnimalesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,11 +24,9 @@ Route::resource('transacciones', TransaccionController::class)
     ->parameters(['transacciones' => 'transaccion']);//Esto es un problema común con la convención de nombres en Laravel.
 Route::get('/transacciones/reportes', [TransaccionController::class, 'reportes'])->name('transacciones.reportes');
 Route::get('/transacciones/generar-pdf', [TransaccionController::class, 'generarPdf'])->name('transacciones.generar.pdf');
-// Route::get('transacciones/exportar', [TransaccionController::class, 'exportar'])
-//     ->name('transacciones.exportar') para esxportar
-//     ->middleware('auth');
 Route::resource('reportes', ReporteController::class);
 Route::get('/reportes/pdf', [ReporteController::class, 'generarPdf'])->name('reportes.pdf');
+Route::resource('reportesanimales', ReporteAnimalesController::class);
 Route::resource('animales', AnimalController::class)
     ->parameters(['animales' => 'animal'])//Esto es un problema común con la convención de nombres en Laravel.
     ->middleware('auth');
@@ -42,16 +41,7 @@ Route::get('lotes/{lote}/reporte', [LoteController::class, 'reporte'])->name('lo
          ->name('fincas.show')
          ->where('finca', '[0-9]+');
     
-    // Rutas adicionales para reportes
-//     Route::prefix('fincas/{finca}')->group(function () {
-//         Route::get('inventario', [FincaController::class, 'reporteInventario'])
-//              ->name('fincas.inventario');
-        
-//         Route::get('reporte-financiero', [FincaController::class, 'reporteFinanciero'])
-//              ->name('fincas.reporte-financiero');
-//     });
-    
-    // Ruta API para select2 u otros usos
+     // Ruta API para select2 u otros usos
     Route::get('api/fincas', [FincaController::class, 'getFincasJson'])
          ->name('api.fincas');
 });

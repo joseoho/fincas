@@ -153,9 +153,9 @@
             <span data-feather="file-text"></span>
             Reporte Transacciones
           </a>
-          <a class="nav-link" href="/reportes/pdf">
+          <a class="nav-link" href="/reportesanimales">
             <span data-feather="file-text"></span>
-            Generar PDF
+           Reporte Animales
           </a>
         </li>
       </ul>

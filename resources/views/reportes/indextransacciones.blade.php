@@ -111,9 +111,9 @@
                         <button type="button" onclick="imprimirReporte()" class="btn btn-success">
                             <i class="fas fa-print"></i> Imprimir
                         </button>
-                        <button type="button" onclick="generarPDF(event)" class="btn btn-danger">
+                        {{-- <button type="button" onclick="generarPDF(event)" class="btn btn-danger">
                             <i class="fas fa-file-pdf"></i> Generar PDF
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </form>
