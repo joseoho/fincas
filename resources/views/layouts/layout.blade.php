@@ -126,9 +126,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/movimientos">
             <span data-feather="repeat"></span>
-            Movimientos
+            Movimientos Animales
           </a>
         </li>
         {{-- <li class="nav-item">

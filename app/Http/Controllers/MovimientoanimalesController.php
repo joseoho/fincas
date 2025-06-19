@@ -13,7 +13,11 @@ class MovimientoanimalesController extends Controller
      */
     public function index()
     {
-        //
+        $movimientos = MovimientoAnimal::with(['animal', 'loteAnterior', 'loteNuevo'])
+            ->latest()
+            ->paginate(10);
+
+        return view('movimientoanimal.index', compact('movimientos'));
     }
 
     /**
