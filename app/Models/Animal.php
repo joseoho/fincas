@@ -55,13 +55,3 @@ class Animal extends Model
     
 }
 
-// <script>
-//         function mostrarAlerta() {
-//             var respuesta = confirm("¿Estás seguro de que quieres continuar?");
-//             if (respuesta) {
-//                 alert("Has hecho clic en Aceptar.");
-//             } else {
-//                 alert("Has hecho clic en Cancelar.");
-//             }
-//         }
-//     </script>

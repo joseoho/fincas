@@ -38,16 +38,26 @@ class Lote extends Model
     /**
      * Relación con los movimientos donde este lote es el origen
      */
-    public function movimientosOrigen(): HasMany
-    {
-        return $this->hasMany(MovimientoAnimal::class, 'lote_anterior_id');
-    }
+    // public function movimientosOrigen(): HasMany
+    // {
+    //     return $this->hasMany(MovimientoAnimal::class, 'lote_anterior_id');
+    // }
 
-    /**
-     * Relación con los movimientos donde este lote es el destino
-     */
-    public function movimientosDestino(): HasMany
-    {
-        return $this->hasMany(MovimientoAnimal::class, 'lote_nuevo_id');
-    }
+    // /**
+    //  * Relación con los movimientos donde este lote es el destino
+    //  */
+    // public function movimientosDestino(): HasMany
+    // {
+    //     return $this->hasMany(MovimientoAnimal::class, 'lote_nuevo_id');
+    // }
+
+    public function movimientosComoAnterior()
+{
+    return $this->hasMany(MovimientoAnimal::class, 'lote_anterior_id');
+}
+
+public function movimientosComoNuevo()
+{
+    return $this->hasMany(MovimientoAnimal::class, 'lote_nuevo_id');
+}
 }

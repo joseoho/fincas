@@ -21,24 +21,18 @@ class MovimientoAnimal extends Model
     /**
      * Relación con el animal
      */
-    public function animal(): BelongsTo
-    {
-        return $this->belongsTo(Animal::class);
-    }
+   public function animal()
+{
+    return $this->belongsTo(Animal::class);
+}
 
-    /**
-     * Relación con el lote anterior
-     */
-    public function loteAnterior(): BelongsTo
-    {
-        return $this->belongsTo(Lote::class, 'lote_anterior_id');
-    }
+public function loteAnterior()
+{
+    return $this->belongsTo(Lote::class, 'lote_anterior_id');
+}
 
-    /**
-     * Relación con el nuevo lote
-     */
-    public function loteNuevo(): BelongsTo
-    {
-        return $this->belongsTo(Lote::class, 'lote_nuevo_id');
-    }
+public function loteNuevo()
+{
+    return $this->belongsTo(Lote::class, 'lote_nuevo_id');
+}
 }
