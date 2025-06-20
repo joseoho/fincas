@@ -171,7 +171,7 @@
                                         <p class="mb-1 text-muted">
                                             <small>
                                                 <i class="far fa-calendar-alt"></i> 
-                                                {{ $movimiento->fecha->format('d/m/Y') }}
+                                                {{ $movimiento->fecha}}
                                             </small>
                                         </p>
                                         <p class="mb-0">

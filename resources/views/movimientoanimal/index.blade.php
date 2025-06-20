@@ -31,7 +31,7 @@
                             <td>{{ $movimiento->animal->codigo }} ({{ $movimiento->animal->raza }})</td>
                             <td>{{ $movimiento->loteAnterior->nombre ?? 'N/A' }}</td>
                             <td>{{ $movimiento->loteNuevo->nombre }}</td>
-                            <td>{{ $movimiento->fecha->format('d/m/Y') }}</td>
+                            <td>{{ $movimiento->fecha}}</td>
                             <td>{{ $movimiento->motivo }}</td>
                             <td>
                                 <a href="{{ route('movimientos.show', $movimiento) }}" class="btn btn-sm btn-info">

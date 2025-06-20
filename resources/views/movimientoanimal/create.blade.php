@@ -1,7 +1,7 @@
 
 @extends('layouts.layout')
 
-@section('title', 'Animales')
+@section('title', 'Movimiento Animal')
 
 @section('content')
 <!doctype html>
@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>PAGINA ANIMALES</title>
+    <title>PAGINA MOVIMIENTO ANIMALES</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
 
@@ -44,9 +44,9 @@
   <div class="row">
                   <div class="col-12">
                     
-                 <form action="{{route('animales.store')}}" method="POST" name="animales"> 
+                 <form action="{{route('movimientos.store')}}" method="POST" name="movimiento"> 
                     @csrf
-                        @include('animales.form')
+                        @include('movimientoanimal.form')
 	                     <!-- <div class="form-group mr-2">
                           <a href="/Empleado" class="btn btn-light">Regresar</a>
                           <button type="submit" class="btn btn-primary">Guardar</button>
