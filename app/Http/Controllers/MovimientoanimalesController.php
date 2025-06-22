@@ -61,7 +61,7 @@ class MovimientoanimalesController extends Controller
         // Actualizar el lote del animal
         $animal->update(['lote_id' => $request->lote_nuevo_id]);
 
-        return redirect()->route('movimientoanimal.index')
+        return redirect()->route('movimientos.index')
             ->with('success', 'Movimiento registrado correctamente');
     }
 
