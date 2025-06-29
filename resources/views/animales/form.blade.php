@@ -30,7 +30,7 @@
                         <div class="row mb-3">
                             <label for="codigo" class="col-md-4 col-form-label text-md-end">Código</label>
                             <div class="col-md-6">
-                                <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" value="{{ old('codigo') }}" required autofocus>
+                                <input id="codigo" type="number" class="form-control @error('codigo') is-invalid @enderror" name="codigo" value="{{ old('codigo') }}" required autofocus>
                                 @error('codigo')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -42,10 +42,15 @@
                         
 
                         <div class="row mb-3">
-                            <label for="raza" class="col-md-4 col-form-label text-md-end">Raza</label>
+                            <label for="lote_id" class="col-md-4 col-form-label text-md-end">Raza</label>
                             <div class="col-md-6">
-                                <input id="raza" type="text" class="form-control @error('raza') is-invalid @enderror" name="raza" value="{{ old('raza') }}" required>
-                                @error('raza')
+                                <select id="raza" class="form-control @error('raza') is-invalid @enderror" name="raza" required>
+                                    <option value="">Seleccione una Raza</option>
+                                    @foreach($razas as $raza)
+                                        <option value="{{ $raza }}">{{ $raza }}</option>
+                                    @endforeach
+                                </select>
+                                @error('lote_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

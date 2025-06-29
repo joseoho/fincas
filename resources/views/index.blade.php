@@ -7,14 +7,14 @@
 <style>
     .background {
         /* background-image: url('ruta/a/tu/imagen.jpg'); Cambia esto por la ruta de tu imagen */
-        background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+        background-size: cover; 
         background-position: center; /* Centra la imagen */
-        height: 100vh; /* Altura completa de la ventana */
-        display: flex; /* Usamos flexbox para centrar el contenido */
-        justify-content: center; /* Centra horizontalmente */
-        align-items: center; /* Centra verticalmente */
-        color: white; /* Cambia el color del texto si es necesario */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la visibilidad del texto */
+        height: 100vh; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        color: white; 
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
     }
 </style>
 

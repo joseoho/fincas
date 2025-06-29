@@ -15,8 +15,8 @@ class AnimalController extends Controller
      */
     public function index(Request $request)
     {
-                // Obtener parámetros de búsqueda
-        $search = $request->input('search');
+                //Obtener parámetros de búsqueda
+        $search = $request->input('search', '');
         $lote_id = $request->input('lote_id');
         $raza = $request->input('raza');
         $sexo = $request->input('sexo');
@@ -53,6 +53,8 @@ class AnimalController extends Controller
         $animales = $query->paginate(15);
 
         return view('animales.index', compact('animales', 'lotes', 'razas', 'search', 'lote_id', 'raza', 'sexo', 'estado'));
+            // Obtener parámetros de búsqueda con valores por defecto
+    
     }
 
     /**
@@ -60,8 +62,17 @@ class AnimalController extends Controller
      */
     public function create()
     {
-         $lotes = Lote::orderBy('nombre')->get();
-        return view('animales.index', compact('lotes'));
+
+        // raza predefinidas (puedes personalizar)
+        $razas = [
+            'Brahman',
+            'Holstein',
+            'Angus',
+            'Simmental',
+            'F1'
+        ];
+        $lotes = Lote::orderBy('nombre')->get();
+        return view('animales.create', compact('lotes', 'razas'));
     }
 
     /**
