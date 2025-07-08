@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaccion;
 use App\Models\Finca;
 use App\Models\Moneda;
+use App\Models\TransaccionHistorica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTransaccionRequest;
@@ -184,12 +185,35 @@ class TransaccionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaccion $transaccion)
+    public function destroy(Request $request, Transaccion $transaccion)
     {
-        $transaccion->delete();
+    //     $transaccion->delete();
     
+    // return redirect()->route('transacciones.index')
+    //                  ->with('success', 'Transacción eliminada exitosamente!');
+
+    DB::transaction(function () use ($request, $transaccion) {
+        // Crear registro histórico
+        TransaccionHistorica::create([
+            'transaccions_id' => $transaccion->id,
+            'finca_id' => $transaccion->finca_id,
+            'moneda_id' => $transaccion->moneda_id,
+            'tipo' => $transaccion->tipo,
+            'monto' => $transaccion->monto,
+            'fecha' => $transaccion->fecha,
+            'descripcion' => $transaccion->descripcion,
+            'categoria' => $transaccion->categoria,
+            'referencia' => $transaccion->referencia,
+            'deleted_by' => auth()->id(),
+            'delete_reason' => $request->input('delete_reason', 'Eliminación estándar')
+        ]);
+
+        // Eliminación suave
+        $transaccion->delete();
+    });
+
     return redirect()->route('transacciones.index')
-                     ->with('success', 'Transacción eliminada exitosamente!');
+        ->with('success', 'Transacción movida al histórico correctamente');
     }
 
     // app/Http/Controllers/ReporteController.php o en TransaccionController

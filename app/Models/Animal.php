@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Animal extends Model
 {
-    use HasFactory;
+     use HasFactory, SoftDeletes;
+  
 
     protected $fillable = [
         'lote_id',
@@ -19,9 +21,12 @@ class Animal extends Model
         'fecha_nacimiento',
         'peso_inicial',
         'estado',
-        'observaciones'
-    ];
+        'observaciones',
+        'deleted_at'
+           ];
 
+
+    //   protected $dates = ['deleted_at'];
     /**
      * Relación con el lote actual
      */
@@ -52,6 +57,11 @@ class Animal extends Model
             'finca_id' // Local key on Lote table
         );
     }
+
+    public function historial()
+{
+    return $this->hasMany(AnimalHistorica::class);
+}
     
 }
 

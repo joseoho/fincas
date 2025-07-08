@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaccion extends Model
 {
-    use HasFactory;
+   
+    use SoftDeletes, HasFactory;
 
     protected $fillable = [
         'finca_id',
@@ -18,9 +20,11 @@ class Transaccion extends Model
         'fecha',
         'descripcion',
         'categoria',
-        'referencia'
+        'referencia',
+        'deleted_at',
     ];
 
+    //  protected $dates = ['deleted_at'];
     /**
      * Relación con la finca
      */
@@ -35,5 +39,11 @@ class Transaccion extends Model
     public function moneda(): BelongsTo
     {
         return $this->belongsTo(Moneda::class);
+    }
+
+   // Relación con el histórico
+    public function historicos()
+    {
+        return $this->hasMany(TransaccionHistorica::class);
     }
 }

@@ -16,8 +16,8 @@
                 <div class="col-md-6">
                     <h5>Información del Movimiento</h5>
                     <p><strong>Fecha:</strong> {{ $movimiento->fecha }}</p>
-                    <p><strong>Lote Anterior:</strong> {{ $movimiento->loteAnterior->nombre ?? 'N/A' }}</p>
-                    <p><strong>Lote Nuevo:</strong> {{ $movimiento->loteNuevo->nombre }}</p>
+                    <p><strong>Lote Anterior:</strong> {{ $movimiento->loteOrigen->nombre ?? 'N/A' }}</p>
+                    <p><strong>Lote Nuevo:</strong> {{ $movimiento->loteDestino->nombre }}</p>
                     <p><strong>Motivo:</strong> {{ $movimiento->motivo }}</p>
                 </div>
             </div>

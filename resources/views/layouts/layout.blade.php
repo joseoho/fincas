@@ -137,9 +137,17 @@
             Gestión Usuarios
           </a>
         </li> --}}
-      @endif
+    
     </ul>
-
+        <a class="nav-link" href="/transaccioneshistoricas">
+                <span data-feather="file-text"></span>
+              Historico Transacciones
+        </a>
+        <a class="nav-link" href="/animaleshistoricas">
+                <span data-feather="file-text"></span>
+              Historico Animales
+        </a>
+            @endif
     {{-- @if(Auth::user()->rol === 'Administrador') --}}
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Reportes</span>
@@ -157,6 +165,7 @@
             <span data-feather="file-text"></span>
            Reporte Animales
           </a>
+      
         </li>
       </ul>
     {{-- @endif --}}

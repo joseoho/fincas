@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Animal;
+use App\Models\AnimalHistorica;
 use App\Http\Requests\StoreAnimalRequest;
 use App\Http\Requests\UpdateAnimalRequest;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Lote;
 use Illuminate\Http\Request;
@@ -126,9 +128,44 @@ class AnimalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Animal $animal)
+    public function destroy(Request $request, Animal $animal )
     {
+        // $animal->delete();
+        // return redirect()->route('animales.index')->with('success', 'Animal eliminado exitosamente.');
+
+            // Registrar en el historial antes de eliminar
+      DB::transaction(function () use ($request, $animal) {
+        // Crear registro histórico
+        AnimalHistorica::create([
+            // 'animal_id' => $animal->animal_id,
+            'lote_id' => $animal->lote_id,
+            'codigo' => $animal->codigo,
+            'raza' => $animal->raza,
+            'sexo' => $animal->sexo,
+            'fecha_nacimiento' => $animal->fecha_nacimiento,
+            'peso_inicial' => $animal->depeso_inicialscripcion,
+            'estado' => $animal->estado,
+            'observaciones' => $animal->observaciones,
+            'deleted_by' => auth()->id(),
+            'deleted_reason' => $request->input('delete_reason', 'Eliminación estándar')
+        ]);
+
+        // Eliminación suave
         $animal->delete();
-        return redirect()->route('animales.index')->with('success', 'Animal eliminado exitosamente.');
-    }
+    });
+
+    return redirect()->route('animales.index')
+        ->with('success', 'Transacción movida al histórico correctamente');
+   }
+
+   public function trashed()
+{
+    $animales = Animal::onlyTrashed()
+        ->with(['lote', 'historial' => function($q) {
+            $q->where('accion', 'eliminado')->latest();
+        }])
+        ->paginate(15);
+
+    return view('animales.historico', compact('animales'));
+}
 }

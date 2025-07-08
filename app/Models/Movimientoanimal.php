@@ -26,12 +26,12 @@ class MovimientoAnimal extends Model
     return $this->belongsTo(Animal::class);
 }
 
-public function loteAnterior()
+public function loteOrigen()
 {
     return $this->belongsTo(Lote::class, 'lote_anterior_id');
 }
 
-public function loteNuevo()
+public function loteDestino()
 {
     return $this->belongsTo(Lote::class, 'lote_nuevo_id');
 }
