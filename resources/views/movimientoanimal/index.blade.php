@@ -28,9 +28,9 @@
                         @foreach($movimientos as $movimiento)
                         <tr>
                             <td>{{ $movimiento->id }}</td>
-                            <td>{{ $movimiento->animal->codigo }} ({{ $movimiento->animal->raza }})</td>
-                            <td>{{ $movimiento->loteAnterior->nombre ?? 'N/A' }}</td>
-                            <td>{{ $movimiento->loteNuevo->nombre }}</td>
+                            <td>{{ $movimiento->animal->codigo ?? 'N/A' }} ({{ $movimiento->animal->raza ?? 'N/A' }})</td>
+                            <td>{{ $movimiento->loteOrigen->nombre ?? 'N/A' }}</td>
+                            <td>{{ $movimiento->loteDestino->nombre }}</td>
                             <td>{{ $movimiento->fecha}}</td>
                             <td>{{ $movimiento->motivo }}</td>
                             <td>

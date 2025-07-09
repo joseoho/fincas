@@ -12,7 +12,8 @@ class Animal extends Model
 {
      use HasFactory, SoftDeletes;
   
-
+    protected $table = 'animals';
+    Protected $primaryKey = "id";
     protected $fillable = [
         'lote_id',
         'codigo',

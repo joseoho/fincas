@@ -157,20 +157,20 @@
                                     <tr>
                                         <td>{{ $movimiento->created_at->format('d/m/Y H:i') }}</td>
                                         <td><span class="badge bg-danger">Salida</span></td>
-                                        <td>{{ $movimiento->animal->identificacion }}</td>
-                                        <td>{{ $movimiento->loteOrigen->nombre }}</td>
-                                        <td>{{ $movimiento->loteDestino->nombre }}</td>
-                                        <td>{{ $movimiento->razon }}</td>
+                                        <td>{{ $movimiento->animal->codigo ?? 'N/A' }}</td>
+                                        <td>{{ $movimiento->loteOrigen->nombre ?? 'N/A' }}</td>
+                                        <td>{{ $movimiento->loteDestino->nombre ?? 'N/A'}}</td>
+                                        <td>{{ $movimiento->motivo ?? 'N/A'  }}</td>
                                     </tr>
                                     @endforeach
                                     @foreach($lote->movimientosDestino->sortByDesc('created_at') as $movimiento)
                                     <tr>
                                         <td>{{ $movimiento->created_at->format('d/m/Y H:i') }}</td>
                                         <td><span class="badge bg-success">Entrada</span></td>
-                                        <td>{{ $movimiento->animal->identificacion }}</td>
-                                        <td>{{ $movimiento->loteOrigen->nombre }}</td>
-                                        <td>{{ $movimiento->loteDestino->nombre }}</td>
-                                        <td>{{ $movimiento->razon }}</td>
+                                        <td>{{ $movimiento->animal->codigo ?? 'N/A' }}</td>
+                                        <td>{{ $movimiento->loteOrigen->nombre ?? 'N/A' }}</td>
+                                        <td>{{ $movimiento->loteDestino->nombre ?? 'N/A'}}</td>
+                                        <td>{{ $movimiento->motivo ?? 'N/A'  }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

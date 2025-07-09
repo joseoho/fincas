@@ -21,10 +21,17 @@ class MovimientoAnimal extends Model
     /**
      * Relación con el animal
      */
-   public function animal()
-{
-    return $this->belongsTo(Animal::class);
-}
+//    public function animal()
+// {
+//     return $this->belongsTo(Animal::class);
+// }
+ public function animal(): BelongsTo
+    {
+        return $this->belongsTo(Animal::class)->withDefault([
+            'identificacion' => 'Animal eliminado'
+        ]);
+    }
+
 
 public function loteOrigen()
 {

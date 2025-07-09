@@ -160,7 +160,7 @@
 </div>
 @endforeach
 
-@section('scripts')
+
 <script>
 // Si necesitas funcionalidad JavaScript adicional
 $(document).ready(function() {

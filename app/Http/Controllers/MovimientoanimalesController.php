@@ -16,7 +16,7 @@ class MovimientoanimalesController extends Controller
      */
     public function index()
     {
-        $movimientos = MovimientoAnimal::with(['animal', 'loteAnterior', 'loteNuevo'])
+        $movimientos = MovimientoAnimal::with(['animal', 'loteOrigen', 'loteDestino'])
             ->latest()
             ->paginate(10);
 
